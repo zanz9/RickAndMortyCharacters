@@ -1,19 +1,18 @@
-import 'package:kdigital_test/src/di/main_di_module.dart';
-import 'package:kdigital_test/src/presentation/ui/character_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:kdigital_test/src/core/di/di_init.dart';
+import 'package:kdigital_test/src/features/character/presentation/screen/character_screen.dart';
 
 void main() {
+  configureDependencies();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    MainDIModule().configure(GetIt.I);
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Test app',
       home: CharactersScreen(),
     );
