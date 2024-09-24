@@ -1,8 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'character_entity.g.dart';
-
-@JsonSerializable()
 class CharacterEntity {
   final int id;
   final String name;
@@ -31,9 +26,4 @@ class CharacterEntity {
     required this.url,
     required this.created,
   });
-
-  factory CharacterEntity.fromJson(Map<String, dynamic> json) =>
-      _$CharacterEntityFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CharacterEntityToJson(this);
 }

@@ -15,7 +15,7 @@ class LoadingDataOnMainPageEvent extends MainPageEvent {
 }
 
 class DataLoadedOnMainPageEvent extends MainPageEvent {
-  final List<CharacterEntity> characters;
+  final CharacterResultEntity characters;
 
   const DataLoadedOnMainPageEvent(this.characters);
 }

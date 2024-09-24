@@ -1,5 +1,5 @@
-import 'package:kdigital_test/src/features/character/data/models/character_dto.dart';
+import 'package:kdigital_test/src/features/character/data/models/character_result_dto.dart';
 
 abstract class ICharacterRemote {
-  Future<List<CharacterDto>> getAllCharacters(int page);
+  Future<CharacterResultDto> getAllCharacters(int page);
 }

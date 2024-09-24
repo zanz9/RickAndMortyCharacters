@@ -9,7 +9,7 @@ class LoadingMainPageState extends MainPageState {}
 class UnSuccessfulMainPageState extends MainPageState {}
 
 class SuccessfulMainPageState extends MainPageState {
-  final List<CharacterEntity> characters;
+  final CharacterResultEntity characters;
 
   SuccessfulMainPageState(this.characters);
 }

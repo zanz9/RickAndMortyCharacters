@@ -2,7 +2,7 @@ import 'package:kdigital_test/src/features/character/data/models/character_dto.d
 import 'package:kdigital_test/src/features/character/domain/enitity/character_entity.dart';
 
 class CharacterDtoToEntityMapper {
-  CharacterEntity map(CharacterDto dto) {
+  static CharacterEntity map(CharacterDto dto) {
     return CharacterEntity(
       id: dto.id,
       name: dto.name,
