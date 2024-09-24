@@ -13,37 +13,43 @@ class CharactersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = MainPageBloc(
-      InitialMainPageState(),
-      getIt<ICharactersRepository>(),
-    )..add(const GetTestDataOnMainPageEvent(1));
-
-    return Scaffold(
-      bottomNavigationBar: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () {
-                // bloc.add();
-              },
-              child: Container(
-                color: Colors.transparent,
-                child: const Icon(Icons.arrow_back),
-              ),
-            ),
-            Container(
-              color: Colors.transparent,
-              child: const Icon(Icons.arrow_forward),
-            ),
-          ],
+    return BlocProvider(
+      create: (context) => MainPageBloc(
+        InitialMainPageState(),
+        getIt<ICharactersRepository>(),
+      )..add(const GetTestDataOnMainPageEvent(1)),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          title: const Text('Rick and Morty Characters'),
         ),
-      ),
-      body: BlocProvider.value(
-        value: bloc,
-        child: BlocConsumer<MainPageBloc, MainPageState>(
+        bottomNavigationBar: Builder(builder: (context) {
+          return Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    context.read<MainPageBloc>().add(PrevPageEvent());
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
+                IconButton(
+                  onPressed: () {
+                    context.read<MainPageBloc>().add(NextPageEvent());
+                  },
+                  icon: const Icon(Icons.arrow_forward),
+                ),
+              ],
+            ),
+          );
+        }),
+        body: BlocConsumer<MainPageBloc, MainPageState>(
           listener: (context, state) {},
           builder: (blocContext, state) {
             if (state is LoadingMainPageState) {
@@ -61,7 +67,25 @@ class CharactersScreen extends StatelessWidget {
               );
             } else {
               return const Center(
-                child: Text("Что-то пошло не так..."),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Что-то пошло не так...",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Проверьте подключение к интернету",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
           },

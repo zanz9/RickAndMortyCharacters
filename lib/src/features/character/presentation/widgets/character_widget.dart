@@ -16,7 +16,7 @@ class CharacterWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: ShapeDecoration(
-          color: const Color.fromARGB(120, 204, 255, 255),
+          color: Colors.white,
           shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.circular(32),
           ),
@@ -28,16 +28,17 @@ class CharacterWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 45,
-                foregroundImage: NetworkImage(character.image),
-              ),
-              const SizedBox(width: 10),
-              Column(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 50,
+              foregroundImage: NetworkImage(character.image),
+              backgroundColor: Colors.white,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -47,7 +48,7 @@ class CharacterWidget extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Row(
+                  Wrap(
                     children: [
                       character.gender == 'Male'
                           ? const Icon(Icons.male, color: Colors.blue)
@@ -55,9 +56,9 @@ class CharacterWidget extends StatelessWidget {
                       const SizedBox(width: 5),
                       Text(character.species,
                           style: const TextStyle(fontSize: 16)),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 5),
                       const Text('|'),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 5),
                       Text('Status: ${character.status}',
                           style: const TextStyle(fontSize: 16)),
                     ],
@@ -69,8 +70,8 @@ class CharacterWidget extends StatelessWidget {
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -7,12 +7,16 @@ import 'package:kdigital_test/src/features/character/data/models/character_resul
 class CharacterRemoteImpl {
   final Dio dio = getIt.get<DioClient>().dio;
 
-  Future<CharacterResultDto> getAllCharacters(int page) async {
-    final response = await dio.get('${EndPoints.characters}?page=$page');
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load characters');
+  Future<CharacterResultDto?> getAllCharacters(int page) async {
+    try {
+      final response = await dio.get('${EndPoints.characters}?page=$page');
+      if (response.statusCode != 200) {
+        throw Exception('Failed to load characters');
+      }
+      final result = response.data;
+      return CharacterResultDto.fromJson(result);
+    } catch (e) {
+      return null;
     }
-    final result = response.data;
-    return CharacterResultDto.fromJson(result);
   }
 }

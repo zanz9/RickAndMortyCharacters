@@ -19,3 +19,7 @@ class DataLoadedOnMainPageEvent extends MainPageEvent {
 
   const DataLoadedOnMainPageEvent(this.characters);
 }
+
+class NextPageEvent extends MainPageEvent {}
+
+class PrevPageEvent extends MainPageEvent {}

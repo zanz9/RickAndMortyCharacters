@@ -12,9 +12,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Test app',
-      home: CharactersScreen(),
+    return MaterialApp(
+      title: 'Rick And Morty Characters',
+      home: const CharactersScreen(),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+      ),
     );
   }
 }

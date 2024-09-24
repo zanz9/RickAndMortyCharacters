@@ -8,6 +8,9 @@ part 'main_state.dart';
 class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   final ICharactersRepository _charactersRepository;
 
+  late int currentPage;
+  late int maxPage;
+
   MainPageBloc(super.initialState, this._charactersRepository) {
     on<GetTestDataOnMainPageEvent>(
       (event, emitter) => _getDataOnMainPageCasino(event, emitter),
@@ -18,13 +21,19 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     on<LoadingDataOnMainPageEvent>(
       (event, emitter) => emitter(LoadingMainPageState()),
     );
+    on<NextPageEvent>((event, emit) => _nextPage(event, emit));
+    on<PrevPageEvent>((event, emit) => _prevPage(event, emit));
   }
 
   Future<void> _getDataOnMainPageCasino(
-      GetTestDataOnMainPageEvent event, Emitter<MainPageState> emit) async {
-    _charactersRepository.getAllCharacters(event.page).then((characters) {
-      add(DataLoadedOnMainPageEvent(characters));
-    });
+    GetTestDataOnMainPageEvent event,
+    Emitter<MainPageState> emit,
+  ) async {
+    emit(LoadingMainPageState());
+    currentPage = event.page;
+    CharacterResultEntity characters =
+        await _charactersRepository.getAllCharacters(event.page);
+    add(DataLoadedOnMainPageEvent(characters));
   }
 
   Future<void> _dataLoadedOnMainPageCasino(
@@ -32,9 +41,18 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     Emitter<MainPageState> emit,
   ) async {
     if (event.characters.characters.isNotEmpty) {
+      maxPage = event.characters.info.pages;
       emit(SuccessfulMainPageState(event.characters));
     } else {
       emit(UnSuccessfulMainPageState());
     }
+  }
+
+  _nextPage(NextPageEvent event, Emitter<MainPageState> emit) {
+    if (currentPage < maxPage) add(GetTestDataOnMainPageEvent(currentPage + 1));
+  }
+
+  _prevPage(PrevPageEvent event, Emitter<MainPageState> emit) {
+    if (currentPage > 1) add(GetTestDataOnMainPageEvent(currentPage - 1));
   }
 }

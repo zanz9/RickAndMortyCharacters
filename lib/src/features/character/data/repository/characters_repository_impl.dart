@@ -4,6 +4,7 @@ import 'package:kdigital_test/src/features/character/data/data_sources/remote/ch
 import 'package:kdigital_test/src/features/character/data/mappers/character_result/character_result_dto_to_entity_mapper.dart';
 import 'package:kdigital_test/src/features/character/data/models/character_result_dto.dart';
 import 'package:kdigital_test/src/features/character/domain/enitity/character_result_entity.dart';
+import 'package:kdigital_test/src/features/character/domain/enitity/info_entity.dart';
 import 'package:kdigital_test/src/features/character/domain/repository/i_characters_repository.dart';
 
 class CharactersRepositoryImpl implements ICharactersRepository {
@@ -12,8 +13,18 @@ class CharactersRepositoryImpl implements ICharactersRepository {
 
   @override
   Future<CharacterResultEntity> getAllCharacters(int page) async {
-    final CharacterResultDto result =
+    final CharacterResultDto? result =
         await _characterRemoteImpl.getAllCharacters(page);
+    if (result == null) {
+      return CharacterResultEntity(
+          characters: [],
+          info: InfoEntity(
+            count: 0,
+            pages: 0,
+            next: null,
+            prev: null,
+          ));
+    }
 
     final CharacterResultEntity characters =
         CharacterResultDtoToEntityMapper.map(result);
