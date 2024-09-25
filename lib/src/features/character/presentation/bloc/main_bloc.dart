@@ -23,6 +23,7 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     );
     on<NextPageEvent>((event, emit) => _nextPage(event, emit));
     on<PrevPageEvent>((event, emit) => _prevPage(event, emit));
+    on<RefreshPageEvent>((event, emit) => _refreshPage(event, emit));
   }
 
   Future<void> _getDataOnMainPageCasino(
@@ -33,6 +34,12 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     currentPage = event.page;
     CharacterResultEntity characters =
         await _charactersRepository.getAllCharacters(event.page);
+    add(DataLoadedOnMainPageEvent(characters));
+  }
+
+  _refreshPage(RefreshPageEvent event, Emitter<MainPageState> emit) async {
+    CharacterResultEntity characters =
+        await _charactersRepository.getAllCharacters(currentPage);
     add(DataLoadedOnMainPageEvent(characters));
   }
 
@@ -48,11 +55,17 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
     }
   }
 
-  _nextPage(NextPageEvent event, Emitter<MainPageState> emit) {
-    if (currentPage < maxPage) add(GetTestDataOnMainPageEvent(currentPage + 1));
+  _nextPage(NextPageEvent event, Emitter<MainPageState> emit) async {
+    if (currentPage >= maxPage) return;
+    CharacterResultEntity characters =
+        await _charactersRepository.getAllCharacters(++currentPage);
+    add(DataLoadedOnMainPageEvent(characters));
   }
 
-  _prevPage(PrevPageEvent event, Emitter<MainPageState> emit) {
-    if (currentPage > 1) add(GetTestDataOnMainPageEvent(currentPage - 1));
+  _prevPage(PrevPageEvent event, Emitter<MainPageState> emit) async {
+    if (currentPage <= 1) return;
+    CharacterResultEntity characters =
+        await _charactersRepository.getAllCharacters(--currentPage);
+    add(DataLoadedOnMainPageEvent(characters));
   }
 }

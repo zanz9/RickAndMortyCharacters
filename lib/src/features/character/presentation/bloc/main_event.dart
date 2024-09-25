@@ -23,3 +23,5 @@ class DataLoadedOnMainPageEvent extends MainPageEvent {
 class NextPageEvent extends MainPageEvent {}
 
 class PrevPageEvent extends MainPageEvent {}
+
+class RefreshPageEvent extends MainPageEvent {}
